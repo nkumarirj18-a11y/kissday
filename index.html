@@ -1,199 +1,83 @@
-Theek, Hug Day ka clone nahi chahiye, Kiss Day ka upgraded version chahiye with kiss + heart + love overload. Samajh gaya.
-Isme effects aur cute banaye hain:
-
-• Lip kiss animation 💋
-• Flying kiss emojis from click position
-• Heart explosion + fireworks
-• Floating photos p1–p14
-• Romantic slideshow
-• Moving NO button (tradition continue)
-• Typewriter love line
-• Music autoplay after YES
-
-Bas **index.html** save karo. Same folder me:
-p1.jpeg → p14.jpeg
-audio/kiss.mp3
-
----
-
-## 💋 KISS DAY SPECIAL FINAL CODE
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kiss Day Nikki 💋</title>
-
-<style>
-body{
-margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;
-background:radial-gradient(circle,#ff4d6d,#1a0010);
-font-family:Segoe UI;color:#fff;overflow:hidden;
-}
-
-/* Card */
-.card{
-width:92%;max-width:420px;text-align:center;
-background:rgba(0,0,0,.65);backdrop-filter:blur(18px);
-border-radius:25px;padding:25px;z-index:10;
-box-shadow:0 0 45px #ff0066;
-}
-
-button{
-border:none;border-radius:30px;padding:12px 25px;
-margin-top:10px;font-weight:bold;cursor:pointer;
-}
-#yesBtn{background:#ff4d6d;color:#1a0010;}
-#noBtn{background:transparent;color:#ccc;border:1px solid #aaa;}
-
-#celebration{display:none}
-
-/* floating hearts */
-.heart{position:fixed;top:-40px;font-size:22px;animation:fall linear forwards}
-@keyframes fall{to{transform:translateY(110vh);opacity:0}}
-
-/* kiss blast */
-.kiss{position:fixed;font-size:26px;animation:kissBlast 2s forwards}
-@keyframes kissBlast{
-0%{transform:scale(1)}
-100%{transform:translate(var(--x),var(--y)) scale(2);opacity:0}
-}
-
-/* firework */
-.fire{position:fixed;width:8px;height:8px;border-radius:50%;
-animation:explode 1s forwards}
-@keyframes explode{
-from{transform:scale(1);opacity:1}
-to{transform:scale(18);opacity:0}
-}
-
-#slideshow img{width:100%;border-radius:15px;box-shadow:0 0 20px hotpink}
-</style>
-</head>
-
-<body>
-
-<audio id="song" src="audio/kiss.mp3"></audio>
-
-<div class="card">
-<h2>Happy Kiss Day Nikki 💋❤️</h2>
-
-<div id="asking">
-<h3>Can I steal a kiss? 😘</h3>
-<button id="yesBtn">Take My Kiss 💋</button><br>
-<button id="noBtn">Not so easy 😏</button>
-</div>
-
-<div id="celebration">
-<h3>My Kiss Promises 💕</h3>
-<p>
-💋 Every kiss full of love<br>
-💋 Every kiss full of care<br>
-💋 Every kiss only for you ❤️
-</p>
-
-<div id="typewriter"></div>
-<h3>📸 Our Memories</h3>
-<div id="slideshow"><img id="slideImg" src="p1.jpeg"></div>
-</div>
-</div>
-
-<script>
-
-/* moving NO button */
 const noBtn=document.getElementById("noBtn");
 noBtn.onclick=()=>{
-noBtn.style.position="absolute";
-noBtn.style.left=Math.random()*80+"vw";
-noBtn.style.top=Math.random()*80+"vh";
+    noBtn.style.position="absolute";
+    noBtn.style.left=Math.random()*80+"vw";
+    noBtn.style.top=Math.random()*80+"vh";
+};
+
+/* YES CLICK */
+document.getElementById("yesBtn").onclick=()=>{
+    document.getElementById("asking").style.display="none";
+    document.getElementById("celebration").style.display="block";
+    document.getElementById("kissSong").play().catch(()=>{});
+    document.body.style.cursor="pointer";
+    startKissScene();
+    photoRain();
+    startSlideshow();
+};
+
+/* 💋 MAIN KISS SCENE */
+function startKissScene(){
+    const scene=document.getElementById("kissScene");
+
+    scene.innerHTML=`
+    <div id="heart1" class="heart">❤️</div>
+    <div id="heart2" class="heart">❤️</div>
+    `;
+
+    setTimeout(()=>{
+        heart1.style.left="45%";
+        heart2.style.right="45%";
+    },300);
+
+    setTimeout(()=>{
+        scene.innerHTML=`<div style="font-size:90px;animation:zoomIn 1s">💋</div>`;
+        heartExplosion();
+    },2200);
 }
 
-/* YES click */
-document.getElementById("yesBtn").onclick=(e)=>{
-document.getElementById("asking").style.display="none";
-document.getElementById("celebration").style.display="block";
-document.getElementById("song").play();
-typeWriter();
-kissExplosion(e);
-photoFloat();
-fireworks();
-slideshow();
+/* 💥 HEART BLAST */
+function heartExplosion(){
+    for(let i=0;i<40;i++){
+        const h=document.createElement("div");
+        h.className="explosion";
+        h.innerHTML="💖";
+        h.style.left="50vw";
+        h.style.top="40vh";
+        h.style.setProperty("--x",(Math.random()*600-300)+"px");
+        h.style.setProperty("--y",(Math.random()*600-300)+"px");
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),1500);
+    }
 }
 
-/* kiss explosion */
-function kissExplosion(e){
-for(let i=0;i<60;i++){
-const k=document.createElement("div");
-k.className="kiss";k.innerHTML="💋";
-k.style.left=e.clientX+"px";
-k.style.top=e.clientY+"px";
-k.style.setProperty("--x",(Math.random()-.5)*800+"px");
-k.style.setProperty("--y",(Math.random()-.5)*800+"px");
-document.body.appendChild(k);
-setTimeout(()=>k.remove(),2000);
-}
-}
-
-/* fireworks */
-function fireworks(){
-for(let i=0;i<25;i++){
-const f=document.createElement("div");
-f.className="fire";
-f.style.left=Math.random()*100+"vw";
-f.style.top=Math.random()*100+"vh";
-f.style.background=`hsl(${Math.random()*360},100%,60%)`;
-document.body.appendChild(f);
-setTimeout(()=>f.remove(),1000);
-}
+/* 📸 PHOTO RAIN */
+function photoRain(){
+    const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
+    let i=0;
+    setInterval(()=>{
+        const img=document.createElement("img");
+        img.src=photos[i%photos.length];
+        img.style.position="absolute";
+        img.style.width="70px";
+        img.style.left=Math.random()*90+"vw";
+        img.style.top="-100px";
+        img.style.transition="6s linear";
+        document.body.appendChild(img);
+        setTimeout(()=>img.style.top="110vh",100);
+        setTimeout(()=>img.remove(),6000);
+        i++;
+    },900);
 }
 
-/* floating photos */
-function photoFloat(){
-const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
-setInterval(()=>{
-const img=document.createElement("img");
-img.src=photos[Math.floor(Math.random()*photos.length)];
-img.style.position="absolute";
-img.style.width="70px";
-img.style.left=Math.random()*90+"vw";
-img.style.top="100vh";
-img.style.transition="6s linear";
-document.body.appendChild(img);
-setTimeout(()=>img.style.top="-100px",100);
-setTimeout(()=>img.remove(),6000);
-},1200);
+/* slideshow smooth */
+function startSlideshow(){
+    const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
+    let i=0;
+    setInterval(()=>{
+        i=(i+1)%photos.length;
+        slideImg.style.opacity=0;
+        setTimeout(()=>slideImg.src=photos[i],400);
+        setTimeout(()=>slideImg.style.opacity=1,400);
+    },2500);
 }
-
-/* slideshow */
-function slideshow(){
-const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
-let i=0;
-setInterval(()=>{
-i=(i+1)%photos.length;
-document.getElementById("slideImg").src=photos[i];
-},2500);
-}
-
-/* hearts rain */
-setInterval(()=>{
-const h=document.createElement("div");
-h.className="heart";h.innerHTML="❤️";
-h.style.left=Math.random()*100+"vw";
-h.style.animationDuration=(Math.random()*3+5)+"s";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),8000);
-},400);
-
-/* typewriter */
-function typeWriter(){
-const text="One kiss from you = lifetime happiness 💋❤️";
-let i=0,box=document.getElementById("typewriter");
-(function t(){ if(i<text.length){box.innerHTML+=text[i++];setTimeout(t,50);} })();
-}
-
-</script>
-</body>
-</html>
-```
