@@ -151,15 +151,52 @@ function slideshow(){
 }
 
 function photoRain(){
-    const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
+    // 1. Emojis aur Photos ki list
+    const rainItems = ["💋", "😘", "🔥", "❤️‍🔥", "💄", "💖"];
+    const photos = [...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
+
+    // 2. Interval 400ms kiya (taki rain heavy ho jaye)
     setInterval(()=>{
-        const p=document.createElement("img");
-        p.src=photos[Math.floor(Math.random()*14)];
-        p.style.cssText=`position:fixed;width:70px;left:${Math.random()*90}vw;top:-100px;transition:6s linear;border-radius:10px;z-index:1;`;
+        const isEmoji = Math.random() > 0.4; // 60% chance emoji, 40% photo
+        const p = document.createElement("div");
+        
+        if(isEmoji) {
+            // Kiss Emoji Rain
+            p.innerHTML = rainItems[Math.floor(Math.random() * rainItems.length)];
+            p.style.fontSize = Math.floor(Math.random() * 20 + 20) + "px"; // Random size
+        } else {
+            // Photo Rain
+            const img = document.createElement("img");
+            img.src = photos[Math.floor(Math.random() * 14)];
+            img.style.width = "70px";
+            img.style.borderRadius = "12px";
+            img.style.border = "2px solid #ff4d6d";
+            p.appendChild(img);
+        }
+
+        // 3. Falling Animation aur Quantity settings
+        p.style.cssText = `
+            position:fixed; 
+            left:${Math.random()*95}vw; 
+            top:-100px; 
+            transition: ${Math.random() * 2 + 4}s linear; 
+            z-index:1; 
+            pointer-events:none;
+            filter: drop-shadow(0 0 5px rgba(255,77,109,0.5));
+        `;
+        
         document.body.appendChild(p);
-        setTimeout(()=>p.style.top="110vh",100);
-        setTimeout(()=>p.remove(),6500);
-    },1200);
+        
+        // Niche girne ka logic
+        setTimeout(() => {
+            p.style.top = "110vh";
+            p.style.transform = `rotate(${Math.random() * 360}deg)`; // Girte waqt ghumega
+        }, 100);
+        
+        // Memory saaf karne ke liye remove
+        setTimeout(() => p.remove(), 6000);
+        
+    }, 400); // <-- Quantity badhane ke liye value kam rakhi hai
 }
 
 // ALL 100+ LINES FIXED & RANDOMIZED
