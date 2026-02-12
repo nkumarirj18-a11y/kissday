@@ -4,18 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kiss Day ❤️</title>
-
 <style>
 :root{ --kiss-red:#ff003c; }
-
 body{
 margin:0;height:100vh;overflow:hidden;
 display:flex;justify-content:center;align-items:center;
 background:radial-gradient(circle,#300,#000);
 font-family:Poppins,sans-serif;color:#fff;
 }
-
-/* Floating Card */
 .card{
 text-align:center;width:85%;max-width:400px;
 background:rgba(255,255,255,.05);
@@ -29,94 +25,59 @@ z-index:10;
 @keyframes floatCard{50%{transform:translateY(-10px)}}
 .heartbeat{animation:pulse 1.2s infinite}
 @keyframes pulse{50%{transform:scale(1.05)}}
-
-/* BUTTON */
 #holdBtn{
 background:linear-gradient(45deg,var(--kiss-red),#800020);
 border:none;color:#fff;padding:18px 40px;
 border-radius:50px;font-size:18px;font-weight:bold;
 cursor:pointer;
 }
-
-/* CLICK HERE BUTTON */
 #kissBtn{
-margin-top:15px;
-padding:12px 25px;
-border:none;
-border-radius:30px;
+margin-top:15px;padding:12px 25px;border:none;border-radius:30px;
 background:linear-gradient(45deg,#ff003c,#ff4d6d);
-color:#fff;
-font-weight:bold;
-font-size:15px;
-cursor:pointer;
-box-shadow:0 0 15px rgba(255,0,60,.5);
+color:#fff;font-weight:bold;font-size:15px;
+cursor:pointer;box-shadow:0 0 15px rgba(255,0,60,.5);
 }
-
-#kissMsg{
-margin-top:12px;
-font-size:14px;
-color:#ffd6df;
-min-height:20px;
-transition:.4s;
-}
-
-/* HEART FALL BG */
+#kissMsg{margin-top:12px;font-size:14px;color:#ffd6df;min-height:20px;transition:.4s;}
 @keyframes fall{to{transform:translateY(110vh);opacity:0}}
 .bgHeart{position:fixed;top:-50px;font-size:22px;animation:fall 7s linear forwards}
-
-/* Kiss Frame */
 .kiss-frame{
 width:220px;height:180px;margin:20px auto;
 background:url('https://cdn-icons-png.flaticon.com/512/2921/2921102.png') center/contain no-repeat;
 display:flex;justify-content:center;align-items:center;
 }
-.kiss-frame img{
-width:100px;height:100px;border-radius:50%;
-object-fit:cover;transition:.8s;
-}
-
-/* Cartoon Couple */
+.kiss-frame img{width:100px;height:100px;border-radius:50%;object-fit:cover;transition:.8s;}
 .couple{position:relative;width:200px;height:140px;margin:auto;}
 .head{width:70px;height:70px;border-radius:50%;position:absolute;top:20px;}
 .boy{left:20px;background:#ffd1dc;}
 .girl{right:20px;background:#ffe4ec;}
 .eye{width:6px;height:6px;background:#000;border-radius:50%;position:absolute;top:30px;}
-.boy .eye{left:20px}
-.girl .eye{right:20px}
+.boy .eye{left:20px} .girl .eye{right:20px}
 .lips{position:absolute;width:20px;height:10px;background:#ff4d6d;border-radius:10px;top:45px;}
-.boy .lips{right:-5px}
-.girl .lips{left:-5px}
+.boy .lips{right:-5px} .girl .lips{left:-5px}
 @keyframes kissMove{to{transform:translateX(30px);}}
 @keyframes kissMoveGirl{to{transform:translateX(-30px);}}
 .kiss-heart{position:absolute;left:50%;top:10px;font-size:30px;opacity:0;animation:heartPop 1s forwards 1.2s;}
 @keyframes heartPop{to{opacity:1;transform:translateY(-20px) scale(1.4);}}
-
 #celebration{display:none}
 </style>
 </head>
-
 <body>
 
 <div class="card heartbeat">
-<div id="asking">
-<div style="font-size:50px">💓</div>
-<h2>Hold to send my heart 💞</h2>
-<button id="holdBtn">HOLD TO KISS 💋</button>
-</div>
-
-<div id="celebration">
-<div id="kissScene" style="height:140px;position:relative"></div>
-
-<div class="kiss-frame">
-<img id="slideImg" src="p1.jpeg">
-</div>
-
-<h2 style="color:#ff003c">Happy Kiss Day ❤️</h2>
-
-<button id="kissBtn">CLICK HERE 💋</button>
-<div id="kissMsg"></div>
-
-</div>
+    <div id="asking">
+        <div style="font-size:50px">💓</div>
+        <h2>Hold to send my heart 💞</h2>
+        <button id="holdBtn">HOLD TO KISS 💋</button>
+    </div>
+    <div id="celebration">
+        <div id="kissScene" style="height:140px;position:relative"></div>
+        <div class="kiss-frame">
+            <img id="slideImg" src="p1.jpeg">
+        </div>
+        <h2 style="color:#ff003c">Happy Kiss Day ❤️</h2>
+        <button id="kissBtn">CLICK HERE 💋</button>
+        <div id="kissMsg"></div>
+    </div>
 </div>
 
 <audio id="hbeat" src="https://www.soundjay.com/human/heartbeat-01.mp3" loop></audio>
@@ -126,85 +87,6 @@ object-fit:cover;transition:.8s;
 let holdTimer;
 const btn=document.getElementById("holdBtn");
 
-btn.onmousedown=startHold;
-btn.ontouchstart=startHold;
-btn.onmouseup=cancelHold;
-btn.ontouchend=cancelHold;
-
-function startHold(){
-document.getElementById("hbeat").play();
-holdTimer=setTimeout(triggerCelebration,2000);
-}
-function cancelHold(){
-clearTimeout(holdTimer);
-document.getElementById("hbeat").pause();
-}
-
-function triggerCelebration(){
-document.getElementById("asking").style.display="none";
-document.getElementById("celebration").style.display="block";
-document.getElementById("song").play().catch(()=>{});
-startKissScene();
-photoRain();
-slideshow();
-
-setInterval(()=>{
-const h=document.createElement("div");
-h.className="bgHeart";h.innerHTML="💖";
-h.style.left=Math.random()*100+"vw";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),7000);
-},400);
-}
-
-function startKissScene(){
-const scene=document.getElementById("kissScene");
-scene.innerHTML='<div id="h1" style="position:absolute;left:-50px;font-size:40px">❤️</div><div id="h2" style="position:absolute;right:-50px;font-size:40px">❤️</div>';
-setTimeout(()=>{
-    const hh1 = document.getElementById("h1");
-    const hh2 = document.getElementById("h2");
-    if(hh1) hh1.style.left="40%";
-    if(hh2) hh2.style.right="40%";
-},100);
-
-setTimeout(()=>{
-scene.innerHTML=`
-<div class="couple">
-<div class="head boy"><div class="eye"></div><div class="lips"></div></div>
-<div class="head girl"><div class="eye"></div><div class="lips"></div></div>
-<div class="kiss-heart">💖</div>
-</div>`;
-document.querySelector(".boy").style.animation="kissMove 1s forwards";
-document.querySelector(".girl").style.animation="kissMoveGirl 1s forwards";
-},2100);
-}
-
-function slideshow(){
-const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
-let i=0;
-setInterval(()=>{
-const img=document.getElementById("slideImg");
-img.style.opacity=0;
-setTimeout(()=>{i=(i+1)%photos.length;img.src=photos[i];img.style.opacity=1;},600);
-},3000);
-}
-
-function photoRain(){
-const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
-setInterval(()=>{
-const p=document.createElement("img");
-p.src=photos[Math.floor(Math.random()*14)];
-p.style.cssText=`position:fixed;width:70px;left:${Math.random()*90}vw;top:-100px;transition:6s linear;border-radius:10px;z-index:1;`;
-document.body.appendChild(p);
-setTimeout(()=>p.style.top="110vh",100);
-setTimeout(()=>p.remove(),6500);
-},1200);
-}
-<script>
-let holdTimer;
-const btn=document.getElementById("holdBtn");
-
-// 1. Hold logic
 btn.onmousedown=startHold;
 btn.ontouchstart=startHold;
 btn.onmouseup=cancelHold;
@@ -247,14 +129,14 @@ function startKissScene(){
     },100);
 
     setTimeout(()=>{
-    scene.innerHTML=`
-    <div class="couple">
-    <div class="head boy"><div class="eye"></div><div class="lips"></div></div>
-    <div class="head girl"><div class="eye"></div><div class="lips"></div></div>
-    <div class="kiss-heart">💖</div>
-    </div>`;
-    document.querySelector(".boy").style.animation="kissMove 1s forwards";
-    document.querySelector(".girl").style.animation="kissMoveGirl 1s forwards";
+        scene.innerHTML=`
+        <div class="couple">
+        <div class="head boy"><div class="eye"></div><div class="lips"></div></div>
+        <div class="head girl"><div class="eye"></div><div class="lips"></div></div>
+        <div class="kiss-heart">💖</div>
+        </div>`;
+        document.querySelector(".boy").style.animation="kissMove 1s forwards";
+        document.querySelector(".girl").style.animation="kissMoveGirl 1s forwards";
     },2100);
 }
 
@@ -262,25 +144,25 @@ function slideshow(){
     const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
     let i=0;
     setInterval(()=>{
-    const img=document.getElementById("slideImg");
-    img.style.opacity=0;
-    setTimeout(()=>{i=(i+1)%photos.length;img.src=photos[i];img.style.opacity=1;},600);
+        const img=document.getElementById("slideImg");
+        img.style.opacity=0;
+        setTimeout(()=>{i=(i+1)%photos.length;img.src=photos[i];img.style.opacity=1;},600);
     },3000);
 }
 
 function photoRain(){
     const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
     setInterval(()=>{
-    const p=document.createElement("img");
-    p.src=photos[Math.floor(Math.random()*14)];
-    p.style.cssText=`position:fixed;width:70px;left:${Math.random()*90}vw;top:-100px;transition:6s linear;border-radius:10px;z-index:1;`;
-    document.body.appendChild(p);
-    setTimeout(()=>p.style.top="110vh",100);
-    setTimeout(()=>p.remove(),6500);
+        const p=document.createElement("img");
+        p.src=photos[Math.floor(Math.random()*14)];
+        p.style.cssText=`position:fixed;width:70px;left:${Math.random()*90}vw;top:-100px;transition:6s linear;border-radius:10px;z-index:1;`;
+        document.body.appendChild(p);
+        setTimeout(()=>p.style.top="110vh",100);
+        setTimeout(()=>p.remove(),6500);
     },1200);
 }
 
-// --- RANDOM NO-REPEAT LOGIC STARTS HERE ---
+// ALL 100+ LINES FIXED & RANDOMIZED
 let kissLines = [
     "Tumhare hothon ka lams meri rooh ki pyaas hai 💋",
     "Tumhari ek kiss pura din happy bana deti hai ❤️",
@@ -408,26 +290,7 @@ let kissLines = [
     "Heart racing, hoth talking ❤️‍🔥",
     "Hoth locked, world gone 😘",
     "Your kiss = chaos mode 💋",
-    "One kiss and I’m gone… no recovery 😈",
-    "Your hoth game too strong fr 🔥",
-    "That slow kiss? Illegal level 😏",
-    "I’m addicted… no rehab needed 💄💋",
-    "Your kisses hit different ❤️‍🔥",
-    "Can’t survive without your hoth 😘",
-    "One bite and I lose control fr 😈🔥",
-    "Your hoth got main character energy 💋✨",
-    "That kiss replaying in 4K in my head 😏",
-    "You + me + no breaks = perfect vibe 🔥",
-    "Your hoth lock > everything else 💕",
-    "BRB… still thinking about that kiss 😌💋",
-    "You kiss me like you mean it… dangerous 😈",
-    "Your hoth? Certified distraction 💄🔥",
-    "That tension before a kiss tho… insane ❤️‍🔥",
-    "Kiss me once… I’m yours twice 😘",
-    "Your hoth got me acting unwise fr 😏🔥",
-    "No cap… your kiss is undefeated 💋",
-    "Stay close… let the hoth talk 😈❤️",
-    "Saansein jab hothon se takraati hain… spark real hai 💋🔥",
+    "Tumhari saanse jab hothon se takraati hain… spark real hai 💋🔥",
     "Hothon ka pressure… aur meri bechaini 😈",
     "Bas ek aur kiss tumhari… main tera deewana 💕🔥",
     "Hoth aur meri saanse… perfect connection 😘",
@@ -454,11 +317,13 @@ let kissLines = [
 function shuffleLines(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [array[i], array[array.length - 1]] = [array[array.length - 1], array[i]]; // Dummy swap for logic
+        let temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 }
 
-// Initial shuffle
 shuffleLines(kissLines);
 let currentLineIndex = 0;
 
@@ -475,4 +340,6 @@ document.getElementById("kissBtn").onclick=()=>{
         currentLineIndex++;
     },200);
 };
-</script>/* KISS LINES - ALL FIXED */
+</script>
+</body>
+</html>
