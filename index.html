@@ -9,21 +9,15 @@
 :root{ --kiss-red:#ff003c; }
 
 body{
-margin:0;
-height:100vh;
-overflow:hidden;
-display:flex;
-justify-content:center;
-align-items:center;
+margin:0;height:100vh;overflow:hidden;
+display:flex;justify-content:center;align-items:center;
 background:radial-gradient(circle,#300,#000);
-font-family:Poppins,sans-serif;
-color:#fff;
+font-family:Poppins,sans-serif;color:#fff;
 }
 
 /* Floating Card */
 .card{
-text-align:center;
-width:85%;max-width:400px;
+text-align:center;width:85%;max-width:400px;
 background:rgba(255,255,255,.05);
 backdrop-filter:blur(20px);
 padding:30px;border-radius:40px;
@@ -32,37 +26,23 @@ box-shadow:0 0 50px rgba(0,0,0,.6);
 animation:floatCard 6s ease-in-out infinite;
 z-index:10;
 }
-@keyframes floatCard{
-0%,100%{transform:translateY(0)}
-50%{transform:translateY(-10px)}
-}
-
+@keyframes floatCard{50%{transform:translateY(-10px)}}
 .heartbeat{animation:pulse 1.2s infinite}
 @keyframes pulse{50%{transform:scale(1.05)}}
 
-/* HOLD BUTTON */
+/* BUTTON */
 #holdBtn{
 background:linear-gradient(45deg,var(--kiss-red),#800020);
-border:none;color:#fff;
-padding:18px 40px;border-radius:50px;
-font-size:18px;font-weight:bold;
-cursor:pointer;overflow:hidden;
-position:relative;
-}
-#holdBtn::after{
-content:"";
-position:absolute;
-left:0;top:0;height:100%;width:0%;
-background:rgba(255,255,255,.25);
-transition:2s linear;
+border:none;color:#fff;padding:18px 40px;
+border-radius:50px;font-size:18px;font-weight:bold;
+cursor:pointer;
 }
 
-/* Hearts meet */
-.heart{font-size:50px;position:absolute;transition:2s;}
-.main-kiss{font-size:100px;animation:pulse 1s infinite}
+/* HEART FALL BG */
+@keyframes fall{to{transform:translateY(110vh);opacity:0}}
+.bgHeart{position:fixed;top:-50px;font-size:22px;animation:fall 7s linear forwards}
 
-#celebration{display:none}
-
+/* Kiss Frame */
 .kiss-frame{
 width:220px;height:180px;margin:20px auto;
 background:url('https://cdn-icons-png.flaticon.com/512/2921/2921102.png') center/contain no-repeat;
@@ -73,16 +53,29 @@ width:100px;height:100px;border-radius:50%;
 object-fit:cover;transition:.8s;
 }
 
-/* Photo rain */
-@keyframes fall{to{transform:translateY(110vh);opacity:0}}
-.bgHeart{position:fixed;top:-50px;font-size:22px;animation:fall 7s linear forwards}
+/* Cartoon Couple */
+.couple{position:relative;width:200px;height:140px;margin:auto;}
+.head{width:70px;height:70px;border-radius:50%;position:absolute;top:20px;}
+.boy{left:20px;background:#ffd1dc;}
+.girl{right:20px;background:#ffe4ec;}
+.eye{width:6px;height:6px;background:#000;border-radius:50%;position:absolute;top:30px;}
+.boy .eye{left:20px}
+.girl .eye{right:20px}
+.lips{position:absolute;width:20px;height:10px;background:#ff4d6d;border-radius:10px;top:45px;}
+.boy .lips{right:-5px}
+.girl .lips{left:-5px}
+@keyframes kissMove{to{transform:translateX(30px);}}
+@keyframes kissMoveGirl{to{transform:translateX(-30px);}}
+.kiss-heart{position:absolute;left:50%;top:10px;font-size:30px;opacity:0;animation:heartPop 1s forwards 1.2s;}
+@keyframes heartPop{to{opacity:1;transform:translateY(-20px) scale(1.4);}}
+
+#celebration{display:none}
 </style>
 </head>
 
 <body>
 
 <div class="card heartbeat">
-
 <div id="asking">
 <div style="font-size:50px">💓</div>
 <h2>Hold to send my heart 💞</h2>
@@ -90,7 +83,7 @@ object-fit:cover;transition:.8s;
 </div>
 
 <div id="celebration">
-<div id="kissScene" style="height:120px;position:relative"></div>
+<div id="kissScene" style="height:140px;position:relative"></div>
 
 <div class="kiss-frame">
 <img id="slideImg" src="p1.jpeg">
@@ -99,7 +92,6 @@ object-fit:cover;transition:.8s;
 <h2 style="color:#ff003c">Happy Kiss Day ❤️</h2>
 <div id="typewriter"></div>
 </div>
-
 </div>
 
 <audio id="heartbeat" src="https://www.soundjay.com/human/heartbeat-01.mp3" loop></audio>
@@ -115,22 +107,12 @@ btn.onmouseup=cancelHold;
 btn.ontouchend=cancelHold;
 
 function startHold(){
-btn.style.transform="scale(.9)";
-btn.style.setProperty("--w","100%");
-btn.querySelector("::after");
 document.getElementById("heartbeat").play();
-btn.style.setProperty("position","relative");
-btn.style.setProperty("overflow","hidden");
-btn.style.setProperty("--progress","100%");
-btn.style.setProperty("backgroundSize","100% 100%");
 holdTimer=setTimeout(triggerCelebration,2000);
-btn.style.setProperty("backgroundImage","linear-gradient(rgba(255,255,255,.2),rgba(255,255,255,.2))");
 }
 function cancelHold(){
 clearTimeout(holdTimer);
 document.getElementById("heartbeat").pause();
-btn.style.transform="scale(1)";
-btn.style.backgroundImage="none";
 }
 
 function triggerCelebration(){
@@ -141,7 +123,6 @@ startKissScene();
 photoRain();
 slideshow();
 typeWriter();
-document.body.onclick=spawnKiss;
 
 setInterval(()=>{
 const h=document.createElement("div");
@@ -150,15 +131,23 @@ h.style.left=Math.random()*100+"vw";
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),7000);
 },400);
-
-setTimeout(()=>createFlash(),10000);
 }
 
 function startKissScene(){
-const s=document.getElementById("kissScene");
-s.innerHTML='<div id="h1" class="heart" style="left:-50px">❤️</div><div id="h2" class="heart" style="right:-50px">❤️</div>';
+const scene=document.getElementById("kissScene");
+scene.innerHTML='<div id="h1" style="position:absolute;left:-50px;font-size:40px">❤️</div><div id="h2" style="position:absolute;right:-50px;font-size:40px">❤️</div>';
 setTimeout(()=>{h1.style.left="40%";h2.style.right="40%";},100);
-setTimeout(()=>{s.innerHTML='<div class="main-kiss">💋</div>';createFlash();},2100);
+
+setTimeout(()=>{
+scene.innerHTML=`
+<div class="couple">
+<div class="head boy"><div class="eye"></div><div class="lips"></div></div>
+<div class="head girl"><div class="eye"></div><div class="lips"></div></div>
+<div class="kiss-heart">💖</div>
+</div>`;
+document.querySelector(".boy").style.animation="kissMove 1s forwards";
+document.querySelector(".girl").style.animation="kissMoveGirl 1s forwards";
+},2100);
 }
 
 function slideshow(){
@@ -167,11 +156,7 @@ let i=0;
 setInterval(()=>{
 const img=document.getElementById("slideImg");
 img.style.opacity=0;
-setTimeout(()=>{
-i=(i+1)%photos.length;
-img.src=photos[i];
-img.style.opacity=1;
-},600);
+setTimeout(()=>{i=(i+1)%photos.length;img.src=photos[i];img.style.opacity=1;},600);
 },3000);
 }
 
@@ -187,31 +172,16 @@ setTimeout(()=>p.remove(),6500);
 },1200);
 }
 
-function spawnKiss(e){
-const k=document.createElement("div");
-k.innerHTML="💋";
-k.style.cssText=`position:absolute;left:${e.pageX}px;top:${e.pageY}px;font-size:30px;animation:fade 1s forwards`;
-document.body.appendChild(k);
-setTimeout(()=>k.remove(),1000);
-}
-
-function createFlash(){
-const f=document.createElement("div");
-f.style.cssText="position:fixed;top:0;left:0;width:100%;height:100%;background:white;opacity:.6;z-index:100;transition:1s";
-document.body.appendChild(f);
-setTimeout(()=>{f.style.opacity=0;setTimeout(()=>f.remove(),1000)},100);
-}
-
 function typeWriter(){
-const text="Your kiss turns my world magical ❤️";
+const text="Your kiss makes my world magical ❤️";
 let i=0;
 (function t(){
 if(i<text.length){
 document.getElementById("typewriter").innerHTML+=text[i++];
 setTimeout(t,60);
-}
-})();
+}})();
 }
 </script>
+
 </body>
 </html>
