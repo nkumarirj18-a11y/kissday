@@ -119,7 +119,7 @@ object-fit:cover;transition:.8s;
 </div>
 </div>
 
-<audio id="heartbeat" src="https://www.soundjay.com/human/heartbeat-01.mp3" loop></audio>
+<audio id="hbeat" src="https://www.soundjay.com/human/heartbeat-01.mp3" loop></audio>
 <audio id="song" src="song.mp3"></audio>
 
 <script>
@@ -132,12 +132,12 @@ btn.onmouseup=cancelHold;
 btn.ontouchend=cancelHold;
 
 function startHold(){
-document.getElementById("heartbeat").play();
+document.getElementById("hbeat").play();
 holdTimer=setTimeout(triggerCelebration,2000);
 }
 function cancelHold(){
 clearTimeout(holdTimer);
-document.getElementById("heartbeat").pause();
+document.getElementById("hbeat").pause();
 }
 
 function triggerCelebration(){
@@ -160,7 +160,12 @@ setTimeout(()=>h.remove(),7000);
 function startKissScene(){
 const scene=document.getElementById("kissScene");
 scene.innerHTML='<div id="h1" style="position:absolute;left:-50px;font-size:40px">❤️</div><div id="h2" style="position:absolute;right:-50px;font-size:40px">❤️</div>';
-setTimeout(()=>{h1.style.left="40%";h2.style.right="40%";},100);
+setTimeout(()=>{
+    const hh1 = document.getElementById("h1");
+    const hh2 = document.getElementById("h2");
+    if(hh1) hh1.style.left="40%";
+    if(hh2) hh2.style.right="40%";
+},100);
 
 setTimeout(()=>{
 scene.innerHTML=`
@@ -189,181 +194,181 @@ const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
 setInterval(()=>{
 const p=document.createElement("img");
 p.src=photos[Math.floor(Math.random()*14)];
-p.style.cssText=`position:fixed;width:70px;left:${Math.random()*90}vw;top:-100px;transition:6s linear;border-radius:10px`;
+p.style.cssText=`position:fixed;width:70px;left:${Math.random()*90}vw;top:-100px;transition:6s linear;border-radius:10px;z-index:1;`;
 document.body.appendChild(p);
 setTimeout(()=>p.style.top="110vh",100);
 setTimeout(()=>p.remove(),6500);
 },1200);
 }
 
-/* KISS LINES BUTTON */
+/* KISS LINES - ALL FIXED */
 const kissLines=[
 "Tumhare hothon ka lams meri rooh ki pyaas hai 💋",
 "Tumhari ek kiss pura din happy bana deti hai ❤️",
 "Time ruk jata hai jab hum kiss karte hain ⏳",
-"Tumhari lips meri favourite addiction hain 😘",
+"Tumhare hoth meri favourite addiction hain 😘",
 "Har kiss tumse ek nayi memory ban jati hai 💞",
 "Tumhari ek kiss = 1000 hugs 😍",
-"Tumhari lips meri happy place hain 💖",
+"Tumhare hoth meri happy place hain 💖",
 "Kiss from you = instant happiness ✨",
 "Bas ek aur kiss… phir ek aur 😌",
-"Jab tum paas aati ho… meri heartbeat automatically fast ho jaati hai 💓🔥",
-"Tumhari slow kiss ka asar seedha dil par hota hai 😘❤️‍🔥",
-"Ek tumhari smile… aur phir ek naughty kiss, perfect trap hai 😈💋",
-"Tumhare hoth jab mere kareeb aate hain… hawa bhi ruk jaati hai 🔥",
-"Tumhari ek soft bite… aur main completely tumhara ho jaata hoon 😏❤️",
-"Tumhare hothon ki garmi mujhe aur paas kheench leti hai 💋🔥",
+"Jab tum paas aati ho… meri heartbeat fast ho jaati hai 💓🔥",
+"Tumhare hothon ka asar seedha dil par hota hai 😘❤️‍🔥",
+"Ek tumhari smile… aur phir ek naughty kiss 😈💋",
+"Tumhare hoth jab mere kareeb aate hain… hawa ruk jaati hai 🔥",
+"Tumhari ek soft bite… aur main tera ho jaata hoon 😏❤️",
+"Tumhare hothon ki garmi mujhe paas kheenchti hai 💋🔥",
 "Jab tum mujhe pakad ke kiss karti ho… duniya blur ho jaati hai 😈",
 "Tumhari ek lambi kiss… aur mera din successful 💕",
 "Tumhare hothon ka magic har baar naya lagta hai 💫💋",
-"Tumhari saanse jab mere hothon ko touch karti hain… tab real spark hota hai 🔥",
-"Tumhare hothon ka nasha ab meri roz ki zarurat ban gaya hai 💋🔥",
-"Jab tum mujhe khinch ke kiss karti ho… tab sab control tumhare haath mein hota hai 😈❤️‍🔥",
-"Tumhare hothon ki ek jhalak hi mera mood change kar deti hai 💋🔥",
-"Jab tum dheere se paas aati ho… meri saanse khud hi heavy ho jaati hain 😈❤️‍🔥",
-"Your lips = my daily dopamine 💋",
+"Saansein jab hothon ko touch karti hain… tab spark hota hai 🔥",
+"Hothon ka nasha ab meri roz ki zarurat hai 💋🔥",
+"Jab tum khinch ke kiss karti ho… sab control tumhare haath mein 😈❤️‍🔥",
+"Hothon ki ek jhalak hi mera mood change kar deti hai 💋🔥",
+"Dheere se paas aati ho… saanse heavy ho jaati hain 😈❤️‍🔥",
+"Your hoth = my daily dopamine 💋",
 "One kiss and I’m gone… no recovery 😈",
-"Your lip game too strong fr 🔥",
+"Your hoth game too strong fr 🔥",
 "That slow kiss? Illegal level 😏",
 "I’m addicted… no rehab needed 💄💋",
 "Your kisses hit different ❤️‍🔥",
-"Lowkey can’t survive without your lips 😘",
+"Can’t survive without your hoth 😘",
 "One bite and I lose control fr 😈🔥",
-"Your lips got main character energy 💋✨",
+"Your hoth got main character energy 💋✨",
 "That kiss replaying in 4K in my head 😏",
 "You + me + no breaks = perfect vibe 🔥",
-"Your lip lock > everything else 💕",
+"Your hoth lock > everything else 💕",
 "BRB… still thinking about that kiss 😌💋",
-"You kiss me like you mean it… dangerous combo 😈",
-"Your lips? Certified distraction 💄🔥",
+"You kiss me like you mean it… dangerous 😈",
+"Your hoth? Certified distraction 💄🔥",
 "That tension before a kiss tho… insane ❤️‍🔥",
 "Kiss me once… I’m yours twice 😘",
-"Your lips got me acting unwise fr 😏🔥",
+"Your hoth got me acting unwise fr 😏🔥",
 "No cap… your kiss is undefeated 💋",
-"Stay close… let the lips talk 😈❤️"
-"Tumhari ek teasing kiss… aur main totally tumhare spell mein 😘",
-"Tumhare hoth jab meri gardan ke kareeb aate hain… tab control impossible ho jata hai 🔥",
-"Ek tumhari deep kiss… aur meri raat perfect ban jaati hai 💕",
-"Lips too dangerous 💋",
+"Stay close… let the hoth talk 😈❤️",
+"Tumhari ek teasing kiss… aur main tumhare spell mein 😘",
+"Hoth jab gardan ke kareeb aate hain… control impossible 🔥",
+"Ek deep kiss… aur meri raat perfect 💕",
+"Hoth too dangerous 💋",
 "Kiss me, don’t talk 😏",
-"Your lips = chaos 🔥",
+"Your hoth = chaos 🔥",
 "One touch, I melt 😈",
 "Stop teasing, start fire ❤️‍🔥",
-"Fast heart, slow lips 😘",
+"Fast heart, slow hoth 😘",
 "Your kiss = main event 💋",
 "Lowkey obsessed af 🔥",
-"That lip game strong 😏",
+"That hoth game strong 😏",
 "Keep kissing, no chill 😈",
-"Your lips = my drug 💄",
-"Lost in your lips 😘",
-"Hot lips, cold brain 🔥",
-"Heart racing, lips locked 😈",
+"Your hoth = my drug 💄",
+"Lost in your hoth 😘",
+"Hot hoth, cold brain 🔥",
+"Heart racing, hoth locked 😈",
 "Kiss me again pls 💋",
-"Lips got me weak 😏",
+"Hoth got me weak 😏",
 "Your kiss = cheat code ❤️‍🔥",
 "Dangerous but I like 😈",
-"One lip bite, I’m done 🔥",
-"Your lips = main plot 😘",
+"One hoth bite, I’m done 🔥",
+"Your hoth = main plot 😘",
 "Too hot to handle 😏",
 "Kiss mode: full on 💋",
-"Your lips break rules 😈",
+"Your hoth break rules 😈",
 "Addicted to your kiss 🔥",
 "One touch, all in 😘",
 "Slow kiss, fast heart 😏",
-"Your lips = chaos mode ❤️‍🔥",
+"Your hoth = chaos mode ❤️‍🔥",
 "Hot and illegal kiss 😈",
-"Can’t resist your lips 💋",
+"Can’t resist your hoth 💋",
 "That kiss = my crime 🔥",
-"Your lips = fire starter 😏",
-"Fast heartbeat, slow lips 😈",
-"Lips got me shook 💄",
+"Your hoth = fire starter 😏",
+"Fast heartbeat, slow hoth 😈",
+"Hoth got me shook 💄",
 "Keep kissing, lose control 😘",
-"Your lips = pure trouble 🔥",
+"Your hoth = pure trouble 🔥",
 "One kiss, no turning back 😈",
 "Kiss me, don’t stop 💋",
-"Your lips = my weakness 😏",
-"That lip bite = sin ❤️‍🔥",
-"Hot lips, hotter me 😈",
+"Your hoth = my weakness 😏",
+"That hoth bite = sin ❤️‍🔥",
+"Hot hoth, hotter me 😈",
 "Lost in your kiss 🔥",
-"Lips too tempting 😘",
+"Hoth too tempting 😘",
 "Kiss me, I’m yours 😏",
-"Your lips = main plot 💋",
+"Your hoth = main plot 💋",
 "Fast kiss, slow burn 🔥",
-"Addicted to your lips 😈",
+"Addicted to your hoth 😈",
 "One kiss = instant chaos 😘",
 "Kiss me like no rules 😏",
-"Your lips = game changer ❤️‍🔥",
-"Hot lips, zero chill 😈",
-"Lips locked, world gone 💋",
-"One kiss = all yours 🔥"
-"Tumhare hothon ka touch… seedha dil pe sign kar deta hai 💋",
-"Jab tum mujhe pakad ke kiss karti ho… main kahin aur reh hi nahi pata 😏",
-"Tumhari slow kisses… meri sabse favourite addiction hain ❤️‍🔥",
-"Tumhare hoth aur meri dhadkan… dono ek rhythm mein aa jaate hain 💓",
-"Ek naughty si smile… phir ek lambi kiss, killer combo hai 😈💋",
-"Tumhare hothon ki garmi mujhe aur kareeb khinch leti hai 🔥",
-"Jab tum thoda sa dominate karke kiss karti ho… main bas feel karta rehta hoon 😏❤️",
-"Your lips = my daily dopamine 💋",
-"Lip vibes got me high 💋",
+"Your hoth = game changer ❤️‍🔥",
+"Hot hoth, zero chill 😈",
+"Hoth locked, world gone 💋",
+"One kiss = all yours 🔥",
+"Tumhare hothon ka touch… dil pe sign kar deta hai 💋",
+"Jab tum pakad ke kiss karti ho… main kahin aur nahi reh pata 😏",
+"Slow hoth… meri favourite addiction hain ❤️‍🔥",
+"Tumhare hoth aur meri dhadkan… ek rhythm mein 💓",
+"Naughty smile aur lambi kiss, killer combo 😈💋",
+"Hothon ki garmi paas khinch leti hai 🔥",
+"Jab tum dominate karke kiss karti ho… maza aata hai 😏❤️",
+"Your hoth = my daily dopamine 💋",
+"Hoth vibes got me high 💋",
 "One kiss = instant mood 😈",
-"Your lips, my addiction 🔥",
+"Your hoth, my addiction 🔥",
 "Stop teasing, start kissing 😏",
 "Too hot, can’t resist 💄",
 "Kiss me, no cap ❤️‍🔥",
-"Your lips = main plot 😘",
-"Dangerous lips alert 😈🔥",
+"Your hoth = main plot 😘",
+"Dangerous hoth alert 😈🔥",
 "Lowkey obsessed with you 💋",
 "Fast heart, slow kiss 😏",
-"Your lips steal attention 🔥",
-"Hot lips, colder brain 😈",
+"Your hoth steal attention 🔥",
+"Hot hoth, colder brain 😈",
 "Kiss mode: ON 💕",
-"That lip game tho 😘",
-"Major lip energy 💋",
+"That hoth game tho 😘",
+"Major hoth energy 💋",
 "Keep kissing, zero chill 😏🔥",
-"Your lips got no chill 😈",
-"Heart racing, lips talking ❤️‍🔥",
-"Lips locked, world gone 😘",
-"Your kiss = chaos mode 💋"
+"Your hoth got no chill 😈",
+"Heart racing, hoth talking ❤️‍🔥",
+"Hoth locked, world gone 😘",
+"Your kiss = chaos mode 💋",
 "One kiss and I’m gone… no recovery 😈",
-"Your lip game too strong fr 🔥",
+"Your hoth game too strong fr 🔥",
 "That slow kiss? Illegal level 😏",
 "I’m addicted… no rehab needed 💄💋",
 "Your kisses hit different ❤️‍🔥",
-"Lowkey can’t survive without your lips 😘",
+"Can’t survive without your hoth 😘",
 "One bite and I lose control fr 😈🔥",
-"Your lips got main character energy 💋✨",
+"Your hoth got main character energy 💋✨",
 "That kiss replaying in 4K in my head 😏",
 "You + me + no breaks = perfect vibe 🔥",
-"Your lip lock > everything else 💕",
+"Your hoth lock > everything else 💕",
 "BRB… still thinking about that kiss 😌💋",
-"You kiss me like you mean it… dangerous combo 😈",
-"Your lips? Certified distraction 💄🔥",
+"You kiss me like you mean it… dangerous 😈",
+"Your hoth? Certified distraction 💄🔥",
 "That tension before a kiss tho… insane ❤️‍🔥",
 "Kiss me once… I’m yours twice 😘",
-"Your lips got me acting unwise fr 😏🔥",
+"Your hoth got me acting unwise fr 😏🔥",
 "No cap… your kiss is undefeated 💋",
-"Stay close… let the lips talk 😈❤️"
-"Tumhari saanse jab mere hothon se takraati hain… spark real hota hai 💋🔥",
-"Tumhare hothon ka pressure… aur meri bechaini, perfect match hai 😈",
-"Bas ek aur kiss tumhari… aur main phir se tumhara deewana 💕🔥"
-"Tumhare hoth aur meri saanse… perfect connection hai 😘",
-"Close aao… itna ki sirf hum aur hamari heartbeat sunai de 💓🔥",
-"Tumhari ek passionate kiss… aur meri duniya tum tak simat jaati hai 💋",
-"Tumhare hoth jab slow se move karte hain… tab patience toot jata hai 😏🔥",
-"Main sirf tumhari kisses ka permanent member banna chahta hoon 😉❤️",
-"Slow start karo… phir dekhna raat kitni interesting hoti hai 😈💋",
-"Tumhari lipstick ka halka sa stain bhi mere liye trophy jaisa hai 💄🔥",
-"Jab tum aankhon me dekh ke kiss karti ho… main sach me kho jaata hoon ❤️‍🔥",
-"Tumhare hoth aur meri bechaini… dangerous combination hai 💋😈",
-"Ek kiss tumhari… aur meri soch seedha romantic mode pe chali jaati hai 🔥",
-"Tumhare hothon pe apni saanse chhodne ka mann karta hai 😘",
-"Jab tum thoda sa tease karke kiss karti ho… tab maza aur badh jata hai 😏❤️",
-"Tumhari deep kiss… meri sabse favourite weakness hai 💋🔥"
-"Tumhare saath slow kisses… meri favourite therapy hain 😘❤️",
-"Tumhare hoth aur meri baahon ka combo unbeatable hai 😈💋",
-"Ek kiss tumhari… aur mera mood instantly romantic ho jata hai 💓",
-"Tumhari naughty smile ke baad wali kiss sabse dangerous hoti hai 😏🔥",
-"Tumhare hothon ka pressure… mujhe aur close aane pe majboor karta hai 💋❤️‍🔥"
+"Stay close… let the hoth talk 😈❤️",
+"Saansein jab hothon se takraati hain… spark real hai 💋🔥",
+"Hothon ka pressure… aur meri bechaini 😈",
+"Bas ek aur kiss tumhari… main tera deewana 💕🔥",
+"Hoth aur meri saanse… perfect connection 😘",
+"Close aao… heartbeat sunai de 💓🔥",
+"Passionate kiss… duniya tum tak simat jaati hai 💋",
+"Hoth jab slow se move karte hain… patience toot jata hai 😏🔥",
+"Main teri kisses ka permanent member banna chahta hoon 😉❤️",
+"Slow start karo… raat interesting hogi 😈💋",
+"Lipstick ka stain mere liye trophy hai 💄🔥",
+"Aankhon me dekh ke kiss karti ho… kho jata hoon ❤️‍🔥",
+"Hoth aur bechaini… dangerous combo 💋😈",
+"Ek kiss… aur soch romantic mode pe 🔥",
+"Hothon pe saanse chhodne ka mann karta hai 😘",
+"Tease karke kiss karti ho… maza badh jata hai 😏❤️",
+"Deep kiss… meri sabse favourite weakness 💋🔥",
+"Slow hoth… meri favourite therapy 😘❤️",
+"Hoth aur meri baahon ka combo unbeatable 😈💋",
+"Ek kiss… mood instantly romantic 💓",
+"Naughty smile ke baad wali kiss dangerous 😏🔥",
+"Hothon ka pressure… close aane pe majboor karta hai 💋❤️‍🔥",
 "Tumhari kiss meri weakness hai 💘"
 ];
 
@@ -381,4 +386,3 @@ kissIndex=(kissIndex+1)%kissLines.length;
 
 </body>
 </html>
-
