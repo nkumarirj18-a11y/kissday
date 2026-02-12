@@ -53,21 +53,59 @@ width:100px;height:100px;border-radius:50%;
 object-fit:cover;transition:.8s;
 }
 
-/* Cartoon Couple */
-.couple{position:relative;width:200px;height:140px;margin:auto;}
-.head{width:70px;height:70px;border-radius:50%;position:absolute;top:20px;}
-.boy{left:20px;background:#ffd1dc;}
-.girl{right:20px;background:#ffe4ec;}
-.eye{width:6px;height:6px;background:#000;border-radius:50%;position:absolute;top:30px;}
-.boy .eye{left:20px}
-.girl .eye{right:20px}
-.lips{position:absolute;width:20px;height:10px;background:#ff4d6d;border-radius:10px;top:45px;}
-.boy .lips{right:-5px}
-.girl .lips{left:-5px}
-@keyframes kissMove{to{transform:translateX(30px);}}
-@keyframes kissMoveGirl{to{transform:translateX(-30px);}}
-.kiss-heart{position:absolute;left:50%;top:10px;font-size:30px;opacity:0;animation:heartPop 1s forwards 1.2s;}
-@keyframes heartPop{to{opacity:1;transform:translateY(-20px) scale(1.4);}}
+/* Corner Button */
+#cornerBtn{
+position:fixed;
+bottom:20px;
+right:20px;
+background:linear-gradient(45deg,#ff003c,#800020);
+color:#fff;
+border:none;
+padding:12px 22px;
+border-radius:30px;
+font-weight:bold;
+cursor:pointer;
+z-index:999;
+box-shadow:0 0 15px rgba(255,0,60,.6);
+transition:.3s;
+}
+
+#cornerBtn.shake{
+animation:shake .4s;
+}
+@keyframes shake{
+0%{transform:translateX(0)}
+25%{transform:translateX(-5px)}
+50%{transform:translateX(5px)}
+75%{transform:translateX(-5px)}
+100%{transform:translateX(0)}
+}
+
+#kissLineBox{
+position:fixed;
+bottom:80px;
+right:20px;
+max-width:250px;
+background:rgba(0,0,0,.7);
+padding:15px;
+border-radius:15px;
+font-size:14px;
+display:none;
+}
+
+/* Heart Burst */
+.burstHeart{
+position:fixed;
+font-size:20px;
+animation:burst 1s ease-out forwards;
+pointer-events:none;
+}
+@keyframes burst{
+to{
+transform:translateY(-80px) scale(1.5);
+opacity:0;
+}
+}
 
 #celebration{display:none}
 </style>
@@ -83,16 +121,16 @@ object-fit:cover;transition:.8s;
 </div>
 
 <div id="celebration">
-<div id="kissScene" style="height:140px;position:relative"></div>
-
 <div class="kiss-frame">
 <img id="slideImg" src="p1.jpeg">
 </div>
-
 <h2 style="color:#ff003c">Happy Kiss Day ❤️</h2>
 <div id="typewriter"></div>
 </div>
 </div>
+
+<button id="cornerBtn">Click Here 💋</button>
+<div id="kissLineBox"></div>
 
 <audio id="heartbeat" src="https://www.soundjay.com/human/heartbeat-01.mp3" loop></audio>
 <audio id="song" src="song.mp3"></audio>
@@ -119,57 +157,7 @@ function triggerCelebration(){
 document.getElementById("asking").style.display="none";
 document.getElementById("celebration").style.display="block";
 document.getElementById("song").play().catch(()=>{});
-startKissScene();
-photoRain();
-slideshow();
 typeWriter();
-
-setInterval(()=>{
-const h=document.createElement("div");
-h.className="bgHeart";h.innerHTML="💖";
-h.style.left=Math.random()*100+"vw";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),7000);
-},400);
-}
-
-function startKissScene(){
-const scene=document.getElementById("kissScene");
-scene.innerHTML='<div id="h1" style="position:absolute;left:-50px;font-size:40px">❤️</div><div id="h2" style="position:absolute;right:-50px;font-size:40px">❤️</div>';
-setTimeout(()=>{h1.style.left="40%";h2.style.right="40%";},100);
-
-setTimeout(()=>{
-scene.innerHTML=`
-<div class="couple">
-<div class="head boy"><div class="eye"></div><div class="lips"></div></div>
-<div class="head girl"><div class="eye"></div><div class="lips"></div></div>
-<div class="kiss-heart">💖</div>
-</div>`;
-document.querySelector(".boy").style.animation="kissMove 1s forwards";
-document.querySelector(".girl").style.animation="kissMoveGirl 1s forwards";
-},2100);
-}
-
-function slideshow(){
-const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
-let i=0;
-setInterval(()=>{
-const img=document.getElementById("slideImg");
-img.style.opacity=0;
-setTimeout(()=>{i=(i+1)%photos.length;img.src=photos[i];img.style.opacity=1;},600);
-},3000);
-}
-
-function photoRain(){
-const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
-setInterval(()=>{
-const p=document.createElement("img");
-p.src=photos[Math.floor(Math.random()*14)];
-p.style.cssText=`position:fixed;width:70px;left:${Math.random()*90}vw;top:-100px;transition:6s linear;border-radius:10px`;
-document.body.appendChild(p);
-setTimeout(()=>p.style.top="110vh",100);
-setTimeout(()=>p.remove(),6500);
-},1200);
 }
 
 function typeWriter(){
@@ -181,6 +169,56 @@ document.getElementById("typewriter").innerHTML+=text[i++];
 setTimeout(t,60);
 }})();
 }
+
+/* 🔥 CLICK BUTTON MAGIC 🔥 */
+
+const kissLines = [
+"Tumhare hoth meri favourite jagah hain 💋",
+"Ek tumhari deep kiss… aur main khud ko bhool jaun 😈",
+"Tumhari lipstick ka taste meri weakness hai ❤️‍🔥",
+"Close aao… saanse mix hone do 🔥",
+"Tumhari naughty kiss mujhe aur paas kheench leti hai 😘",
+"Bas ek lambi si kiss… aur duniya gayab 💞",
+"Tumhare hothon ka nasha coffee se bhi strong hai ☕💋",
+"Jab tum bite karti ho… control mushkil ho jata hai 😏",
+"Slow kiss se start karein… ya seedha passion mode? 🔥",
+"Tumhari ek kiss = mera perfect moment ❤️"
+];
+
+let kissIndex = 0;
+
+document.getElementById("cornerBtn").addEventListener("click", function(e){
+
+// Shake button
+this.classList.add("shake");
+setTimeout(()=>this.classList.remove("shake"),400);
+
+// Show line
+const box = document.getElementById("kissLineBox");
+box.style.display = "block";
+box.innerHTML = kissLines[kissIndex];
+
+// Voice Speak
+const speech = new SpeechSynthesisUtterance(kissLines[kissIndex]);
+speech.rate = 0.9;
+speech.pitch = 1.1;
+speech.lang = "en-US";
+speechSynthesis.speak(speech);
+
+// Heart Burst
+for(let i=0;i<8;i++){
+const heart=document.createElement("div");
+heart.className="burstHeart";
+heart.innerHTML="💖";
+heart.style.left=(e.clientX + Math.random()*40-20)+"px";
+heart.style.top=(e.clientY + Math.random()*20-10)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),1000);
+}
+
+kissIndex = (kissIndex + 1) % kissLines.length;
+
+});
 </script>
 
 </body>
