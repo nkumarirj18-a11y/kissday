@@ -38,6 +38,28 @@ border-radius:50px;font-size:18px;font-weight:bold;
 cursor:pointer;
 }
 
+/* CLICK HERE BUTTON */
+#kissBtn{
+margin-top:15px;
+padding:12px 25px;
+border:none;
+border-radius:30px;
+background:linear-gradient(45deg,#ff003c,#ff4d6d);
+color:#fff;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
+box-shadow:0 0 15px rgba(255,0,60,.5);
+}
+
+#kissMsg{
+margin-top:12px;
+font-size:14px;
+color:#ffd6df;
+min-height:20px;
+transition:.4s;
+}
+
 /* HEART FALL BG */
 @keyframes fall{to{transform:translateY(110vh);opacity:0}}
 .bgHeart{position:fixed;top:-50px;font-size:22px;animation:fall 7s linear forwards}
@@ -90,7 +112,10 @@ object-fit:cover;transition:.8s;
 </div>
 
 <h2 style="color:#ff003c">Happy Kiss Day ❤️</h2>
-<div id="typewriter"></div>
+
+<button id="kissBtn">CLICK HERE 💋</button>
+<div id="kissMsg"></div>
+
 </div>
 </div>
 
@@ -122,7 +147,6 @@ document.getElementById("song").play().catch(()=>{});
 startKissScene();
 photoRain();
 slideshow();
-typeWriter();
 
 setInterval(()=>{
 const h=document.createElement("div");
@@ -172,16 +196,32 @@ setTimeout(()=>p.remove(),6500);
 },1200);
 }
 
-function typeWriter(){
-const text="Your kiss makes my world magical ❤️";
-let i=0;
-(function t(){
-if(i<text.length){
-document.getElementById("typewriter").innerHTML+=text[i++];
-setTimeout(t,60);
-}})();
-}
+/* KISS LINES BUTTON */
+const kissLines=[
+"Tumhare hothon ka lams meri rooh ki pyaas hai 💋",
+"Tumhari ek kiss pura din happy bana deti hai ❤️",
+"Time ruk jata hai jab hum kiss karte hain ⏳",
+"Tumhari lips meri favourite addiction hain 😘",
+"Har kiss tumse ek nayi memory ban jati hai 💞",
+"Tumhari ek kiss = 1000 hugs 😍",
+"Tumhari lips meri happy place hain 💖",
+"Kiss from you = instant happiness ✨",
+"Bas ek aur kiss… phir ek aur 😌",
+"Tumhari kiss meri weakness hai 💘"
+];
+
+let kissIndex=0;
+document.getElementById("kissBtn").onclick=()=>{
+const msg=document.getElementById("kissMsg");
+msg.style.opacity=0;
+setTimeout(()=>{
+msg.innerHTML=kissLines[kissIndex];
+msg.style.opacity=1;
+kissIndex=(kissIndex+1)%kissLines.length;
+},200);
+};
 </script>
 
 </body>
 </html>
+
