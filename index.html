@@ -152,7 +152,7 @@ function slideshow(){
 
 function photoRain(){
     // 1. Emojis aur Photos ki list
-    const rainItems = ["💋", "😘", "🔥", "❤️‍🔥", "💄", "💖"];
+    const rainItems = ["💋", "😘", "🥰", "❤️", "❤️‍🔥", "💄", "💖"];
     const photos = [...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
 
     // 2. Interval 400ms kiya (taki rain heavy ho jaye)
@@ -196,7 +196,7 @@ function photoRain(){
         // Memory saaf karne ke liye remove
         setTimeout(() => p.remove(), 6000);
         
-    }, 400); // <-- Quantity badhane ke liye value kam rakhi hai
+    }, 200); // <-- Quantity badhane ke liye value kam rakhi hai
 }
 
 // ALL 100+ LINES FIXED & RANDOMIZED
