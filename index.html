@@ -467,6 +467,39 @@ document.getElementById("kissBtn").onclick=()=>{
         currentLineIndex++;
     },200);
 };
+    // --- ABHI JO BATAYE WO BAWAAL TIPS YAHAN HAIN ---
+
+// 1. Magic Touch Logic (Jahan click wahan Dil)
+document.body.addEventListener('click', (e) => {
+    const spark = document.createElement("div");
+    spark.innerHTML = "😘";
+    spark.style.position = "fixed";
+    spark.style.left = e.clientX + "px";
+    spark.style.top = e.clientY + "px";
+    spark.style.fontSize = "50px";
+    spark.style.pointerEvents = "none";
+    spark.style.zIndex = "100";
+    spark.style.transition = "1s";
+    document.body.appendChild(spark);
+    
+    setTimeout(() => {
+        spark.style.transform = "translateY(-50px) scale(2)";
+        spark.style.opacity = "0";
+    }, 10);
+    setTimeout(() => spark.remove(), 1000);
+});
+
+// 2. Button Glow Effect (Har 3 sec mein chamkega)
+setInterval(() => {
+    const hBtn = document.getElementById("holdBtn");
+    if(hBtn) {
+        hBtn.style.boxShadow = "0 0 30px #ff003c";
+        hBtn.style.transition = "0.5s"; // Smooth chamak ke liye
+        setTimeout(() => hBtn.style.boxShadow = "none", 500);
+    }
+}, 3000);
+
+// --- ISKE NEECHE YE TAG HOGA, USSE MAT CHHEDNA ---
 </script>
 </body>
 </html>
