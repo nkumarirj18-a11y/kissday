@@ -1,83 +1,218 @@
-const noBtn=document.getElementById("noBtn");
-noBtn.onclick=()=>{
-    noBtn.style.position="absolute";
-    noBtn.style.left=Math.random()*80+"vw";
-    noBtn.style.top=Math.random()*80+"vh";
-};
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiss Day | Forever Yours ❤️</title>
+    <style>
+        body {
+            margin: 0; padding: 0; overflow: hidden;
+            background: radial-gradient(circle, #400, #000);
+            font-family: 'Poppins', sans-serif; color: white;
+            height: 100vh; display: flex; justify-content: center; align-items: center;
+        }
 
-/* YES CLICK */
-document.getElementById("yesBtn").onclick=()=>{
-    document.getElementById("asking").style.display="none";
-    document.getElementById("celebration").style.display="block";
-    document.getElementById("kissSong").play().catch(()=>{});
-    document.body.style.cursor="pointer";
-    startKissScene();
-    photoRain();
-    startSlideshow();
-};
+        .card {
+            text-align: center; z-index: 10; width: 90%; max-width: 400px;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
+            padding: 30px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1);
+        }
 
-/* 💋 MAIN KISS SCENE */
-function startKissScene(){
-    const scene=document.getElementById("kissScene");
+        /* Original Heart Style */
+        .heart { font-size: 60px; position: absolute; top: 40%; transition: all 2s ease; }
+        
+        /* New Animated Kiss */
+        .main-kiss {
+            font-size: 100px; animation: pulseKiss 1.5s infinite;
+            filter: drop-shadow(0 0 20px #ff003c);
+        }
+        @keyframes pulseKiss {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
 
-    scene.innerHTML=`
-    <div id="heart1" class="heart">❤️</div>
-    <div id="heart2" class="heart">❤️</div>
-    `;
+        /* Button Styles */
+        #yesBtn { background: #ff003c; color: white; border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 20px; }
+        #noBtn { background: transparent; color: #888; border: 1px solid #444; padding: 8px 15px; border-radius: 20px; cursor: pointer; margin-top: 20px; }
 
-    setTimeout(()=>{
-        heart1.style.left="45%";
-        heart2.style.right="45%";
-    },300);
+        /* Explosion & Interactive Kisses */
+        .explosion, .interactive-kiss { position: absolute; pointer-events: none; z-index: 100; }
+        @keyframes kissFade {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(2) translateY(-50px); opacity: 0; }
+        }
 
-    setTimeout(()=>{
-        scene.innerHTML=`<div style="font-size:90px;animation:zoomIn 1s">💋</div>`;
-        heartExplosion();
-    },2200);
-}
+        /* Floating Photo Bubbles */
+        .floating-photo {
+            position: fixed; width: 80px; border-radius: 12px;
+            border: 3px solid rgba(255,255,255,0.3);
+            z-index: 5; transition: transform 6s linear, top 6s linear;
+        }
 
-/* 💥 HEART BLAST */
-function heartExplosion(){
-    for(let i=0;i<40;i++){
-        const h=document.createElement("div");
-        h.className="explosion";
-        h.innerHTML="💖";
-        h.style.left="50vw";
-        h.style.top="40vh";
-        h.style.setProperty("--x",(Math.random()*600-300)+"px");
-        h.style.setProperty("--y",(Math.random()*600-300)+"px");
-        document.body.appendChild(h);
-        setTimeout(()=>h.remove(),1500);
-    }
-}
+        #celebration { display: none; }
+        #typewriter { font-size: 16px; color: #ffb3c1; margin-top: 15px; min-height: 40px; }
+    </style>
+</head>
+<body onclick="spawnInteractiveKiss(event)">
 
-/* 📸 PHOTO RAIN */
-function photoRain(){
-    const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
-    let i=0;
-    setInterval(()=>{
-        const img=document.createElement("img");
-        img.src=photos[i%photos.length];
-        img.style.position="absolute";
-        img.style.width="70px";
-        img.style.left=Math.random()*90+"vw";
-        img.style.top="-100px";
-        img.style.transition="6s linear";
-        document.body.appendChild(img);
-        setTimeout(()=>img.style.top="110vh",100);
-        setTimeout(()=>img.remove(),6000);
-        i++;
-    },900);
-}
+    <div class="card">
+        <div id="asking">
+            <h1 style="font-size: 24px;">Do you want a Kiss? 💋</h1>
+            <button id="yesBtn">YES! ❤️</button> <br>
+            <button id="noBtn">No</button>
+        </div>
 
-/* slideshow smooth */
-function startSlideshow(){
-    const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
-    let i=0;
-    setInterval(()=>{
-        i=(i+1)%photos.length;
-        slideImg.style.opacity=0;
-        setTimeout(()=>slideImg.src=photos[i],400);
-        setTimeout(()=>slideImg.style.opacity=1,400);
-    },2500);
-}
+        <div id="celebration">
+            <div id="kissScene" style="height: 150px; position: relative;"></div>
+            <h2 style="color: #ff003c; margin: 0;">Happy Kiss Day!</h2>
+            <div id="typewriter"></div>
+            <img id="slideImg" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; margin-top: 15px; transition: 0.5s; border: 3px solid #ff003c;">
+        </div>
+    </div>
+
+    <audio id="kissSong" src="your-song-link.mp3"></audio>
+
+    <script>
+        const noBtn = document.getElementById("noBtn");
+        const yesBtn = document.getElementById("yesBtn");
+        const slideImg = document.getElementById("slideImg");
+
+        // Movement for No Button
+        noBtn.onclick = () => {
+            noBtn.style.position = "absolute";
+            noBtn.style.left = Math.random() * 80 + "vw";
+            noBtn.style.top = Math.random() * 80 + "vh";
+        };
+
+        /* YES CLICK */
+        yesBtn.onclick = () => {
+            document.getElementById("asking").style.display = "none";
+            document.getElementById("celebration").style.display = "block";
+            document.getElementById("kissSong").play().catch(() => {});
+            
+            createFlashEffect();
+            startKissScene();
+            photoRainEnhanced();
+            startSlideshow();
+            typeWriter();
+        };
+
+        /* 💋 MAIN KISS SCENE */
+        function startKissScene() {
+            const scene = document.getElementById("kissScene");
+            scene.innerHTML = `
+                <div id="heart1" class="heart" style="left:0;">❤️</div>
+                <div id="heart2" class="heart" style="right:0;">❤️</div>
+            `;
+
+            setTimeout(() => {
+                document.getElementById("heart1").style.left = "42%";
+                document.getElementById("heart2").style.right = "42%";
+            }, 300);
+
+            setTimeout(() => {
+                scene.innerHTML = `<div class="main-kiss">💋</div>`;
+                heartExplosion();
+            }, 2200);
+        }
+
+        /* 💥 HEART BLAST */
+        function heartExplosion() {
+            for(let i=0; i<40; i++) {
+                const h = document.createElement("div");
+                h.className = "explosion";
+                h.innerHTML = "💖";
+                h.style.left = "50vw";
+                h.style.top = "40vh";
+                h.style.setProperty("--x", (Math.random() * 600 - 300) + "px");
+                h.style.setProperty("--y", (Math.random() * 600 - 300) + "px");
+                h.style.transition = "2s ease-out";
+                document.body.appendChild(h);
+                
+                setTimeout(() => {
+                    h.style.transform = `translate(var(--x), var(--y)) scale(0)`;
+                    h.style.opacity = "0";
+                }, 50);
+                setTimeout(() => h.remove(), 2000);
+            }
+        }
+
+        /* 📸 PHOTO RAIN ENHANCED */
+        function photoRainEnhanced() {
+            const photos = [...Array(14)].map((_, i) => `p${i + 1}.jpeg`);
+            let i = 0;
+            setInterval(() => {
+                const img = document.createElement("img");
+                img.src = photos[i % photos.length];
+                img.className = "floating-photo";
+                img.style.left = Math.random() * 90 + "vw";
+                img.style.top = "-100px";
+                img.style.transform = `rotate(${Math.random() * 360}deg)`;
+                document.body.appendChild(img);
+                
+                setTimeout(() => {
+                    img.style.top = "110vh";
+                    img.style.transform = `rotate(${Math.random() * 720}deg) scale(1.1)`;
+                }, 100);
+                
+                setTimeout(() => img.remove(), 6000);
+                i++;
+            }, 900);
+        }
+
+        /* slideshow */
+        function startSlideshow() {
+            const photos = [...Array(14)].map((_, i) => `p${i + 1}.jpeg`);
+            let i = 0;
+            slideImg.src = photos[0];
+            setInterval(() => {
+                i = (i + 1) % photos.length;
+                slideImg.style.opacity = 0;
+                setTimeout(() => {
+                    slideImg.src = photos[i];
+                    slideImg.style.opacity = 1;
+                }, 400);
+            }, 2500);
+        }
+
+        /* NEW: Interactive Kiss on Click */
+        function spawnInteractiveKiss(e) {
+            if(document.getElementById("celebration").style.display === "block") {
+                const k = document.createElement("div");
+                k.className = "interactive-kiss";
+                k.innerHTML = "💋";
+                k.style.left = e.pageX + "px";
+                k.style.top = e.pageY + "px";
+                k.style.animation = "kissFade 1s forwards";
+                document.body.appendChild(k);
+                setTimeout(() => k.remove(), 1000);
+            }
+        }
+
+        /* NEW: Screen Flash */
+        function createFlashEffect() {
+            const f = document.createElement("div");
+            f.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:white;z-index:99;opacity:0;transition:0.5s";
+            document.body.appendChild(f);
+            setTimeout(() => f.style.opacity = 0.4, 2100);
+            setTimeout(() => f.style.opacity = 0, 2600);
+            setTimeout(() => f.remove(), 3000);
+        }
+
+        /* NEW: Typewriter Nazm */
+        function typeWriter() {
+            const text = "Aapki har baat pe mujhe pyar aata hai... Bas aaj is khamoshi ko ek haseen ehsaas mil jaye. ❤️";
+            let i = 0;
+            const target = document.getElementById("typewriter");
+            function play() {
+                if (i < text.length) {
+                    target.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(play, 60);
+                }
+            }
+            play();
+        }
+    </script>
+</body>
+</html>
